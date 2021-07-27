@@ -33,8 +33,10 @@ function Product(name, src) {
     this.shown = 0;
 
     Product.allProducts.push(this);
-    Product.allProducts2.push(this);
+    // Product.allProducts2.push(this);
     labelArray.push(this.name);
+
+    updateStorage();
 }
 new Product('bag', 'img/bag.jpg'); // 0
 new Product('banana', 'img/banana.jpg');
@@ -86,13 +88,13 @@ function renderAllImages() {
 
     // }
 
-    while (image1_index === image2_index || image1_index === image3_index || image2_index === image3_index || Product.allProducts2.includes(image1_index)|| Product.allProducts2.includes(image2_index)|| Product.allProducts2.includes(image3_index)) {
+    while (image1_index === image2_index || image1_index === image3_index || image2_index === image3_index || Product.allProducts2.includes(image1_index) || Product.allProducts2.includes(image2_index) || Product.allProducts2.includes(image3_index)) {
 
         image1_index = random();
         image2_index = random();
         image3_index = random();
     }
-    Product.allProducts2= [image1_index,image2_index,image3_index];
+    Product.allProducts2 = [image1_index, image2_index, image3_index];
 
 
     image1.src = Product.allProducts[image1_index].src;
@@ -195,9 +197,9 @@ function showmyChart() {
             label: 'Shown',
             data: shownArray,
             backgroundColor: ['orange', 'khaki', 'salmon', 'indianRed', 'silver', 'maroon',
-                              'darkblue', 'black', 'Aqua', 'DarkSalmon', 'LightSalmon',
-                              'Olive', 'Lime', 'Aqua', 'Green', 'Teal', 'Navy', 'Fuchsia', 'Purple','pink',
-                
+                'darkblue', 'black', 'Aqua', 'DarkSalmon', 'LightSalmon',
+                'Olive', 'Lime', 'Aqua', 'Green', 'Teal', 'Navy', 'Fuchsia', 'Purple', 'pink',
+
             ],
             borderColor: ['black',
             ],
@@ -222,4 +224,61 @@ function showmyChart() {
         document.getElementById('myChart'),
         config
     );
+}
+
+function updateStorage() {
+
+    let stringArray = JSON.stringify(Product.allProducts);
+
+    localStorage.setItem('Product', stringArray);
+
+}
+
+function getProduct() {
+
+    let data = localStorage.getItem('Product');
+    console.log(data);
+
+    // convert the string array into a normal one:
+    let parseArray = JSON.parse(data)
+    console.log(parseArray);
+
+    if (parseArray !== null) {
+
+        // reinstantiation
+        for (let i = 0; i < Product.allProducts.length; i++) {
+
+            new Product(Product.allProducts[i].name,
+                        Product.allProducts[i].src,
+                        Product.allProducts[i].vote,
+                        Product.allProducts[i].shown );
+        }
+    }
+    renderAllImages();
+
+if (localStorage.getItem('Product') === null) {
+    new Product('bag', 'img/bag.jpg'); // 0
+    new Product('banana', 'img/banana.jpg');
+    new Product('bathroom', 'img/bathroom.jpg');
+    new Product('boots', 'img/boots.jpg');
+    new Product('breakfast', 'img/breakfast.jpg');
+    new Product('bubblegum', 'img/bubblegum.jpg');
+    new Product('chair', 'img/chair.jpg');
+    new Product('cthulhu', 'img/cthulhu.jpg');
+    new Product('dog-duck', 'img/dog-duck.jpg');
+    new Product('dragon', 'img/dragon.jpg');
+    new Product('pen', 'img/pen.jpg');
+    new Product('pet-sweep', 'img/pet-sweep.jpg');
+    new Product('scissors', 'img/scissors.jpg');
+    new Product('shark', 'img/shark.jpg');
+    new Product('sweep', 'img/sweep.png');
+    new Product('tauntaun', 'img/tauntaun.jpg');
+    new Product('unicorn', 'img/unicorn.jpg');
+    new Product('water-can', 'img/water-can.jpg');
+    new Product('wine-glass', 'img/wine-glass.jpg'); // 18
+
+} 
+else {
+    getProduct();
+}
 }
