@@ -23,6 +23,7 @@ let image2_index;
 let image3_index;
 
 Product.allProducts = [];
+Product.allProducts2 = [];
 
 function Product(name, src) {
 
@@ -32,6 +33,7 @@ function Product(name, src) {
     this.shown = 0;
 
     Product.allProducts.push(this);
+    Product.allProducts2.push(this);
     labelArray.push(this.name);
 }
 new Product('bag', 'img/bag.jpg'); // 0
@@ -83,23 +85,22 @@ function renderAllImages() {
     //     image3_index = random();
 
     // }
-    let first = random();
-    let second = random();
-    let third = random();
-    while (image1_index === image2_index || image1_index === image3_index || image2_index === image3_index ||
-            anothorArray.includes(first)  || anothorArray.includes(second)|| anothorArray.includes(third)) {
 
-        first = random();
-        second = random();
-        third = random();
+    while (image1_index === image2_index || image1_index === image3_index || image2_index === image3_index || Product.allProducts2.includes(image1_index)|| Product.allProducts2.includes(image2_index)|| Product.allProducts2.includes(image3_index)) {
 
         image1_index = random();
         image2_index = random();
+        image3_index = random();
     }
+    Product.allProducts2= [image1_index,image2_index,image3_index];
+
 
     image1.src = Product.allProducts[image1_index].src;
+    Product.allProducts[image1_index].shown++;
     image2.src = Product.allProducts[image2_index].src;
+    Product.allProducts[image2_index].shown++;
     image3.src = Product.allProducts[image3_index].src;
+    Product.allProducts[image3_index].shown++;
 
 }
 renderAllImages();
@@ -118,23 +119,23 @@ function click(e) {
         if (e.target.id === 'img1') {
 
             Product.allProducts[image1_index].vote++;
-            Product.allProducts[image1_index].shown++;
-            Product.allProducts[image2_index].shown++;
-            Product.allProducts[image3_index].shown++;
+            // Product.allProducts[image1_index].shown++;
+            // Product.allProducts[image2_index].shown++;
+            // Product.allProducts[image3_index].shown++;
         }
         else if (e.target.id === 'img2') {
 
             Product.allProducts[image2_index].vote++;
-            Product.allProducts[image1_index].shown++;
-            Product.allProducts[image2_index].shown++;
-            Product.allProducts[image3_index].shown++;
+            // Product.allProducts[image1_index].shown++;
+            // Product.allProducts[image2_index].shown++;
+            // Product.allProducts[image3_index].shown++;
         }
         else if (e.target.id === 'img3') {
 
             Product.allProducts[image3_index].vote++;
-            Product.allProducts[image1_index].shown++;
-            Product.allProducts[image2_index].shown++;
-            Product.allProducts[image3_index].shown++;
+            // Product.allProducts[image1_index].shown++;
+            // Product.allProducts[image2_index].shown++;
+            // Product.allProducts[image3_index].shown++;
         }
         renderAllImages();
     }
@@ -168,6 +169,7 @@ function click(e) {
         image1.removeEventListener('click', click);
         image2.removeEventListener('click', click);
         image3.removeEventListener('click', click);
+        // div1.removeEventListener('click', click);
         showmyChart();
     }
     Counter++;
