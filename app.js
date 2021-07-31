@@ -1,7 +1,7 @@
 
 'use strict';
 
-let div1 = document.getElementById('div1');
+let div1 = document.getElementById('images-div');
 let buttonElement = document.getElementById('btn');
 
 let image1 = document.getElementById('img1');
@@ -36,7 +36,7 @@ function Product(name, src) {
     // Product.allProducts2.push(this);
     labelArray.push(this.name);
 
-    updateStorage();
+    
 }
 new Product('bag', 'img/bag.jpg'); // 0
 new Product('banana', 'img/banana.jpg');
@@ -64,8 +64,6 @@ function random() {
     return Math.floor(Math.random() * Product.allProducts.length);
 }
 // console.log(random());
-
-let anothorArray = [];
 
 function renderAllImages() {
     image1_index = random();
@@ -112,8 +110,6 @@ image2.addEventListener('click', click);
 image3.addEventListener('click', click);
 
 function click(e) {
-
-    // console.log(e.target.id);
 
     // Counter++;
 
@@ -172,7 +168,9 @@ function click(e) {
         image2.removeEventListener('click', click);
         image3.removeEventListener('click', click);
         // div1.removeEventListener('click', click);
+        updateStorage();
         showmyChart();
+        
     }
     Counter++;
 
@@ -239,46 +237,22 @@ function getProduct() {
     let data = localStorage.getItem('Product');
     console.log(data);
 
-    // convert the string array into a normal one:
-    let parseArray = JSON.parse(data)
+    let parseArray = JSON.parse(data);
     console.log(parseArray);
 
     if (parseArray !== null) {
 
-        // reinstantiation
-        for (let i = 0; i < Product.allProducts.length; i++) {
+        Product.allProducts = parseArray;
 
-            new Product(Product.allProducts[i].name,
-                        Product.allProducts[i].src,
-                        Product.allProducts[i].vote,
-                        Product.allProducts[i].shown );
+        Product.allProducts=[];
+        // reinstantiation
+        for (let i = 0; i < parseArray.length; i++) {
+
+        let pro = new Product(parseArray[i].name,parseArray[i].src);
+        pro.vote=parseArray[i].vote;
+        pro.shown=parseArray[i].shown;
         }
     }
-    renderAllImages();
-
-if (localStorage.getItem('Product') === null) {
-    new Product('bag', 'img/bag.jpg'); // 0
-    new Product('banana', 'img/banana.jpg');
-    new Product('bathroom', 'img/bathroom.jpg');
-    new Product('boots', 'img/boots.jpg');
-    new Product('breakfast', 'img/breakfast.jpg');
-    new Product('bubblegum', 'img/bubblegum.jpg');
-    new Product('chair', 'img/chair.jpg');
-    new Product('cthulhu', 'img/cthulhu.jpg');
-    new Product('dog-duck', 'img/dog-duck.jpg');
-    new Product('dragon', 'img/dragon.jpg');
-    new Product('pen', 'img/pen.jpg');
-    new Product('pet-sweep', 'img/pet-sweep.jpg');
-    new Product('scissors', 'img/scissors.jpg');
-    new Product('shark', 'img/shark.jpg');
-    new Product('sweep', 'img/sweep.png');
-    new Product('tauntaun', 'img/tauntaun.jpg');
-    new Product('unicorn', 'img/unicorn.jpg');
-    new Product('water-can', 'img/water-can.jpg');
-    new Product('wine-glass', 'img/wine-glass.jpg'); // 18
-
-} 
-else {
-    getProduct();
+    // renderAllImages();
 }
-}
+getProduct();
